@@ -1,0 +1,148 @@
+﻿@model IEnumerable<crud.Models.post>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Listado de posts</h2>
+
+<p>
+    @Html.ActionLink("Nuevo registro", "Create", "", new { @class = "btn btn-primary" })
+</p>
+<table class="table table-hover"  id="tdatos" width="100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idautor)
+            </th>
+            <th>
+               Operaciones
+            </th>
+           
+            <th></th>
+        </tr>
+
+    </thead>
+</table>
+
+<script>
+        $(document).ready(function () {
+
+            //configuracion de datatable
+            var table = $('#tdatos').DataTable({
+
+                "searching": true,
+                "destroy": true,
+                "conditionalPaging": true,
+                "scrollCollapse": true,
+                "paging": true,
+                "lengthMenu": [[5, 10, 20, 30], [5, 10, 20, 30]],
+                "order": [[0, "desc"]],
+                "responsive": true,
+
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ ",
+                    "zeroRecords": "Datos no encontrados",
+                    "info": "Mostar páginas _PAGE_ de _PAGES_",
+                    "infoEmpty": "Datos no encontrados",
+                    "infoFiltered": "(Filtrados por _MAX_ total registros)",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Anterior",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                },
+                "ajax": {
+                    "method": "GET",
+                    "url": "/posts/loadData"
+                },
+              
+               
+                "columns": [{
+                    "data": "id"
+                }, {
+                    "data": "fecha"
+                }, {
+                    "data": "titulo"
+                }, {
+                    "data": "descripcion"
+                }, {
+                    "data": "idautor"
+                },
+                {
+                    "data": null, "render": function (data, type, full, meta) { return ('<a class="btn btn-info" href="/posts/Edit/' + full.id + '">Editar</a> '+'<a class="btn btn-danger" href="/posts/Delete/' + full.id + '">Eliminar </a>'); }
+                }],
+
+            })
+
+            //agregando un nueva instancia de botones
+            new $.fn.dataTable.Buttons(table, {
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        autoFilter: true,
+                        sheetName: 'Datos Exportados a excel',
+                        className: 'btn btn-success mb-3 far fa-file-excel mt-2',
+                        text: "  Excel",
+                        download: 'open',
+                        exportOptions: {
+                            modifier: {
+                                page: 'current'
+                            },
+                            columns: [0, 1, 2]
+                        }
+
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: "LISTADO DE PERSONAS",
+                        //    messageTop: 'listado de personas',
+                        download: 'open',
+                        className: 'btn  btn-info mb-3 far fa-file-pdf mt-2',
+                        text: "  PDF",
+                        exportOptions: {
+                            modifier: {
+                                page: 'current'
+                            },
+                            columns: [0, 1, 2]
+                        }
+                    },
+                    {
+                        extend: "print",
+                        text: "  Imprimir",
+                        title: "LISTADO DE PERSONAS",
+                        className: 'btn mb-3 fas fa-print mt-2 ',
+                        exportOptions: {
+                            modifier: {
+                                page: 'current'
+                            },
+                            columns: [0, 1, 2]
+                        }
+                    },
+                ]
+            })
+
+            //anexando la instancia de botones antes creada
+            table.buttons(0, null).container().prependTo(
+                table.table().container()
+            )
+
+
+
+        });
+</script>
