@@ -10,6 +10,7 @@ namespace crud.Models
         public EntityModel()
             : base("name=EntityModel")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<EntityModel, crud.Migrations.Configuration>());
         }
 
         public virtual DbSet<post> post { get; set; }
