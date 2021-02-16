@@ -9,3 +9,9 @@ PASOS CORRER EL PROYECTO:
 - Ralizar la migracion para crear la base de datos y la tabla automaticamente con el siguiente comando en la Consola del administrador de paquetes: update-database -verbose.
 
 - Correr el proyecto.
+
+TAMBIEN:
+
+Este proyeccto esta implementado haciendo uso de los servicios de AZURE, puedes ejecutar el proyecto y probarlo en el siguiente link:
+
+https://app-azure.azurewebsites.net/
